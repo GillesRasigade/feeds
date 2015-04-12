@@ -24,7 +24,7 @@ body {
 /** Mobile **/
 
 #feeds {
-    margin-bottom: 100px;
+    margin-bottom: 40px;
 }
 
 #feeds .label {
@@ -33,6 +33,20 @@ body {
     float: left;
     margin-top: 2px;
     font-size: 14px;
+}
+
+#feeds select {
+    border-radius: 0px;
+    border: 0px;
+    background-color: transparent;
+    outline: none;
+    -webkit-appearance:none;
+    box-shadow: none;
+}
+
+#feeds select:hover {
+    outline:0px !important;
+    -webkit-appearance:none;
 }
 
 

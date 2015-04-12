@@ -63,7 +63,11 @@ news
             
             try { $scope.$digest(); } catch (e) {}
             
-        })
+        });
+    
+    $scope.change = function() {
+        location.hash = '#/' + $scope.id;
+    }
 }])
 
 ;

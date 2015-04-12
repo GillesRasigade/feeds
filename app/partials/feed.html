@@ -15,7 +15,9 @@
         </ul>
         
         <div id="feeds" class="col-md-9">
-            <a ng-repeat="(i,feed) in feeds" class="label label-{{ i == id ? 'primary' : 'default' }}" href="#/{{ i }}">{{ feed.title }}</a>
+            <select ng-model="id" ng-change="change()" class="form-control">
+                <option ng-repeat="(i,feed) in feeds" value="{{ i }}" ng-selected="id==i">{{ feed.title }}</option>
+            </select>
         </div>
         
         <div id="articles" class="col-md-9">
