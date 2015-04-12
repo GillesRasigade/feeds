@@ -110,12 +110,20 @@ article blockquote span:last-child {
 
 article h2 {
     font-size: 22px;
-    border-bottom: 1px solid #ddd;
+    /*border-bottom: 1px solid #ddd;*/
     margin-top: 0px;
 }
 
-article h3 {
+article .entry h2 {
+    margin-top: 30px;
+}
+
+article .entry h3 {
     font-size: 20px;
+}
+
+article .entry h4 {
+    font-size: 18px;
 }
 
 /* Small devices (tablets, 768px and up) */

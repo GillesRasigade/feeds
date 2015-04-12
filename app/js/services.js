@@ -118,6 +118,29 @@ news
             }
             
             return output
+        },
+        "20minutes": function ( html ) {
+            var $html = compilers._pre(html);
+            var output = { html: '', img: null };
+            
+            angular.forEach( $html.querySelectorAll('#page-content .author-sign'),function(o,i){ o.remove(); });
+            angular.forEach( $html.querySelectorAll('#page-content .content-related.index'),function(o,i){ o.remove(); });
+            angular.forEach( $html.querySelectorAll('#page-content .content-related.buzz'),function(o,i){ o.remove(); });
+            
+            // Extract the article photo:
+            var $img = $html.querySelectorAll( '#page-content figure img' );
+            if ( $img.length ) {
+                output.img = $img[0].src;
+            }
+            
+            // Extract the body content:
+            var $div = $html.querySelectorAll( '#page-content div[role="main"]' );
+            if ( $div.length ) {
+                $div[0].querySelectorAll('#page-content figure img')[0].remove();
+                output.html = $div[0].innerHTML;
+            }
+            
+            return output
         }
     }
     
