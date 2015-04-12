@@ -25,6 +25,7 @@
                 
                 <div class="details pull-right">
                     <small>
+                        <i ng-if="entry.html" class="fa fa-check-circle"></i>&nbsp;
                         {{ entry.date | date:'longDate' }}&nbsp;
                         <span ng-repeat="(j,category) in entry.categories" class="label label-default">{{ category }}</span>
                     </small>
