@@ -1,0 +1,45 @@
+
+<div class="container">
+    
+
+    <!--h1><a href="{{ feed.link }}">{{ feed.title }}</a></h1>
+    
+    <p>{{ feed.description }}</p-->
+    
+    <div class="row">
+    
+        <ul class="col-md-3 hidden-xs hidden-sm">
+            <li ng-repeat="(i,entry) in feed.entries">
+                <a href="#/{{ id }}#entry-{{ i }}">{{ entry.title }}</a>
+            </li>
+        </ul>
+        
+        <div id="feeds" class="col-md-9">
+            <a ng-repeat="(i,feed) in feeds" class="label label-{{ i == id ? 'primary' : 'default' }}" href="#/{{ i }}">{{ feed.title }}</a>
+        </div>
+        
+        <div id="articles" class="col-md-9">
+            <article id="entry-{{ i }}" itemscope itemtype="http://schema.org/Article" ng-click="showDetails = true" ng-repeat="(i,entry) in feed.entries" class="col-xs-12 article">
+                
+                <div class="details pull-right">
+                    <small>
+                        {{ entry.date | date:'longDate' }}&nbsp;
+                        <span ng-repeat="(j,category) in entry.categories" class="label label-default">{{ category }}</span>
+                    </small>
+                </div>
+                
+                <h2><a href="{{ entry.link }}">{{ entry.title }}</a></h2>
+                
+                <div ng-bind-html="entry.content | filterfeed" class="short"></div>
+                
+                <div ng-if="entry.img" class="picture">
+                    <img src="{{ entry.img }}" class="img-responsive" />
+                </div>
+                
+                <div ng-if="entry.html" ng-bind-html="entry.html" ng-show="showDetails" class="entry"></div>
+                
+                
+            </article>
+        </div>
+    </div>
+</div>
