@@ -33,7 +33,7 @@
                 <div ng-bind-html="entry.content | filterfeed" class="short"></div>
                 
                 <div ng-if="entry.img" class="picture">
-                    <img src="{{ entry.img }}" class="img-responsive" />
+                    <img src="{{ entry.img }}" class="img-responsive center-block" />
                 </div>
                 
                 <div ng-if="entry.html" ng-bind-html="entry.html" ng-show="showDetails" class="entry"></div>
