@@ -15,9 +15,17 @@
         </ul>
         
         <div id="feeds" class="col-md-9">
-            <select ng-model="id" ng-change="change()" class="form-control">
-                <option ng-repeat="(i,feed) in feeds" value="{{ i }}" ng-selected="id==i">{{ feed.title }}</option>
-            </select>
+            
+            <form class="form-inline">
+              <div class="form-group">
+                <select ng-model="id" ng-change="change()" class="form-control">
+                    <option ng-repeat="(i,feed) in feeds" value="{{ i }}" ng-selected="id==i">{{ feed.title }}</option>
+                </select>
+              </div>
+              <button type="sync" ng-click="sync()" class="btn btn-default">Sync</button>
+            </form>
+            
+            
         </div>
         
         <div id="articles" class="col-md-9">

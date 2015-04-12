@@ -65,6 +65,37 @@ news
             
         });
     
+    $scope.sync = function() {
+        
+        var _feeds = [];
+        for ( var i in $scope.feeds ) {
+            _feeds.push( $scope.feeds[i] );
+        }
+        
+        var g = function() {
+            var _feed = _feeds.shift();
+            if ( _feed ) {
+                
+                news
+                    .feed( _feed.url )
+                    .then(function(feed){
+                        
+                        var f = function( i ) {
+                            if ( feed.entries[i] ) {
+                                news
+                                    .html( feed.entries[i].link )
+                                    .then(f)
+                            } else {
+                                g();
+                            }
+                        }; f(0);
+                    });
+            } else {
+                alert('Synchronization done.')
+            }
+        }; g();
+    }
+    
     $scope.change = function() {
         location.hash = '#/' + $scope.id;
     }
