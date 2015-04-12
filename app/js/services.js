@@ -4,6 +4,88 @@ news
 // - http://www.bennadel.com/blog/2612-using-the-http-service-in-angularjs-to-make-ajax-requests.htm
 // - http://viralpatel.net/blogs/angularjs-service-factory-tutorial/
 .service('news', ['$http','$q','storage', function( $http, $q, storage ) {
+    
+    this.feeds = {
+        "figaro-la-une": {
+            title: "Le Figaro - A La Une",
+            url: "http://rss.lefigaro.fr/lefigaro/laune",
+            source: "figaro"
+        },
+        "figaro-politique" : {
+            title: "Le Figaro - Politique",
+            url: "http://www.lefigaro.fr/rss/figaro_politique.xml",
+            source: "figaro"
+        },
+        "figaro-international" : {
+            title: "Le Figaro - International",
+            url: "http://www.lefigaro.fr/rss/figaro_international.xml",
+            source: "figaro"
+        },
+        "20minutes-une": {
+            title: "20minutes - Une",
+            url: "http://www.20minutes.fr/rss/une.xml",
+            source: "20minutes"
+        }
+    }
+    
+    this.sync = function( callback , $scope ) {
+        
+        var $this = this;
+        
+        var _feeds = [];
+        if ( $scope ) {
+            if ( $scope.id ) {
+                _feeds.push( this.feeds[$scope.id] );
+            } else {
+                throw 'Missing $scope.id for syncing'
+            }
+        } else {
+            for ( var i in this.feeds ) {
+                _feeds.push( this.feeds[i] );
+            }
+        }
+        
+        var g = function() {
+            var _feed = _feeds.shift();
+            if ( _feed ) {
+                
+                console.log('Syncing feed: ' + _feed.url );
+                
+                $this
+                    .feed( _feed.url )
+                    .then(function(feed){
+                        
+                        if ( $scope ) {
+                            $scope.feed = feed;
+                            try { $scope.$digest(); } catch (e) {}
+                        }
+                        
+                        var f = function( i ) {
+                            if ( feed.entries[i] ) {
+                                console.log('Syncing: ' + feed.entries[i].link );
+                                $this
+                                    .html( feed.entries[i].link )
+                                    .then(function(html){
+                                        
+                                        if ( $scope ) {
+                                            var entry = $this.compile( $this.feeds[ $scope.id ].source, html );
+                                            if ( entry.html ) $scope.feed.entries[i].html = entry.html;
+                                            if ( entry.img ) $scope.feed.entries[i].img = entry.img;
+                                            try { $scope.$digest(); } catch (e) {}
+                                        }
+                                        
+                                        f(++i);
+                                    })
+                            } else {
+                                g();
+                            }
+                        }; f(0);
+                    });
+            } else {
+                if ( 'function' === typeof(callback) ) callback();
+            }
+        }; g();
+    }
 
     this.getPath = function ( feed ) {
         return '/'+feed.replace(/^https?:\/\//,'');
