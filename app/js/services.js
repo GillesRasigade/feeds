@@ -111,8 +111,7 @@ news
             
             storage.get($this.getPath(feed),'feed.json',function(cache,entry){
                 
-                // if ( cache && !navigator.onLine ) {
-                if ( cache ) {
+                if ( cache && !navigator.onLine ) {
                     return _resolve(JSON.parse(cache));
                 }
                 
