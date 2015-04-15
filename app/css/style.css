@@ -21,10 +21,54 @@ body {
     background-color: #eee;
 }
 
+.navbar.navbar-default {
+    background: white;
+    border-bottom: 1px solid #ddd;
+    opacity: 0.75;
+    
+    -webkit-transition: opacity 0.25s ease-in-out;
+  -moz-transition: opacity 0.25s ease-in-out;
+  -ms-transition: opacity 0.25s ease-in-out;
+  -o-transition: opacity 0.25s ease-in-out;
+  transition: opacity 0.25s ease-in-out;
+}
+
+.navbar.navbar-default:hover {
+    opacity: 1;
+}
+
 /** Mobile **/
 
-#feeds {
-    margin-bottom: 40px;
+#toc {
+    list-style: none;
+    opacity: 0.5;
+    
+    -webkit-transition: opacity 0.25s ease-in-out;
+  -moz-transition: opacity 0.25s ease-in-out;
+  -ms-transition: opacity 0.25s ease-in-out;
+  -o-transition: opacity 0.25s ease-in-out;
+  transition: opacity 0.25s ease-in-out;
+}
+#toc:hover {
+    opacity: 1;
+}
+
+#toc li {
+    background: white;
+    border: 1px solid #ddd;
+    box-shadow: 0px 1px 4px #ddd;
+    margin-bottom: 5px;
+}
+
+#toc li a {
+    padding: 10px;
+    display: block;
+    color: #666;
+    text-decoration: none;
+}
+
+#toc li a:hover {
+    color: black;
 }
 
 #feeds .label {
@@ -49,6 +93,10 @@ body {
     -webkit-appearance:none;
 }
 
+#articles {
+    padding-left: 5px;
+    padding-right: 5px;
+}
 
 h1 a,
 article h2 a {
@@ -63,6 +111,7 @@ article {
     border-radius: 2px;
     border: 1px solid #ddd;
     box-shadow: 0px 1px 4px #ddd;
+    cursor: pointer;
 }
 
 article .details {

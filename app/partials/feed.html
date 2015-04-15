@@ -1,5 +1,41 @@
 
-<div class="container">
+<div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    
+    <div class="progress" style="height: 2px; margin-bottom: -2px;">
+        <div class="progress-bar" role="progressbar" aria-valuenow="{{ syncing*100 }}" aria-valuemin="0" aria-valuemax="100" style="width: {{ syncing*100 }}%; transition: width .1s ease;">
+            {{ syncing*100 }}%
+        </div>
+    </div>
+    
+    <div class="container">
+        <div class="navbar-collapse">
+            
+            <span role="form" id="feeds" class="form-inline row col-xs-12 col-sm-9">
+                <div style="display: inline-block; margin-top: 7px;" class="col-xs-12">
+                    <button ng-if="!syncing" ng-click="sync()" class="btn btn-default col-xs-2"><i class="fa fa-cloud-download"></i></button>
+                    <button ng-if="syncing" class="btn btn-link col-xs-2" disabled="disabled"><i class="fa fa-refresh fa-spin"></i></button>
+                    
+                    <div class="col-xs-10">
+                        <select ng-model="id" ng-change="change()" class="form-control">
+                            <option ng-repeat="(i,feed) in feeds" value="{{ i }}" ng-selected="id==i">{{ feed.title }}</option>
+                        </select>
+                    </div>
+                </div>
+            </span>
+                
+            <ul class="nav navbar-nav navbar-right hidden-xs col-sm-3">
+                <li><search></search></li>
+            </ul>
+            <div id="breadcrumb-parent" class="mini-scroll">
+                
+            </div>
+        </div><!--/.nav-collapse -->
+    </div>
+</div>
+
+<div class="container" style="padding-top: 85px;">
+    
+    
     
 
     <!--h1><a href="{{ feed.link }}">{{ feed.title }}</a></h1>
@@ -8,28 +44,14 @@
     
     <div class="row">
     
-        <ul class="col-md-3 hidden-xs hidden-sm">
+        <ul id="toc" class="col-md-3 hidden-xs hidden-sm">
             <li ng-repeat="(i,entry) in feed.entries">
                 <a href="#/{{ id }}#entry-{{ i }}">{{ entry.title }}</a>
             </li>
         </ul>
         
-        <div id="feeds" class="col-md-9">
-            
-            <form class="form-inline">
-              <div class="form-group">
-                <select ng-model="id" ng-change="change()" class="form-control">
-                    <option ng-repeat="(i,feed) in feeds" value="{{ i }}" ng-selected="id==i">{{ feed.title }}</option>
-                </select>
-              </div>
-              <button type="sync" ng-click="sync()" class="btn btn-default">Sync</button>
-            </form>
-            
-            
-        </div>
-        
         <div id="articles" class="col-md-9">
-            <article id="entry-{{ i }}" itemscope itemtype="http://schema.org/Article" ng-click="showDetails = true" ng-repeat="(i,entry) in feed.entries" class="col-xs-12 article">
+            <article id="entry-{{ i }}" itemscope itemtype="http://schema.org/Article" ng-click="showDetails = !showDetails" ng-repeat="(i,entry) in feed.entries" class="col-xs-12 article">
                 
                 <div class="details pull-right">
                     <small>

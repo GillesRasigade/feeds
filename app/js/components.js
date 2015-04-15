@@ -1,5 +1,16 @@
 angular.module('components', [])
 
+.directive('whenScrolled', function() {
+    return function(scope, elm, attr) {
+        var raw = elm[0];
+        elm.off('scroll').on('scroll', function() {
+            
+            console.log('scroll!');
+            
+        });
+    };
+})
+
 .directive('search',function(){
     return {
         restrict: 'E',

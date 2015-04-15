@@ -9,3 +9,10 @@ news
             .replace(/<img width="1" height="1".*/,'');
     };
 })
+
+.filter('percentage', function() {
+  return function( value ) {
+        
+        return (value*100).toFixed(0) + ' %';
+    };
+})

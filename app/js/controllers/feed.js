@@ -10,24 +10,29 @@ news
     $scope.s = $rootScope.s ? $rootScope : '';
     $scope.id = $route.current.params.feed
     $scope.feed = null;
+    $scope.syncing = false;
     
-    news.sync(function(){
-        
-        try { $scope.$digest(); } catch (e) {}
-        
-    },$scope);
-    
-    $scope.sync = function() {
+    $scope.sync = function( id ) {
         
         news.sync(function(){
-            alert('synced ok');
-        })
+            
+            $scope.syncing = false;
+            try { $scope.$digest(); } catch (e) {}
+            
+        },$scope,id)
         
+    }
+    
+    $scope.scroll = function() {
+        console.log( arguments );
     }
     
     $scope.change = function() {
         location.hash = '#/' + $scope.id;
     }
+    
+    $scope.sync( $scope.id )
+    
 }])
 
 ;

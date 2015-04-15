@@ -28,25 +28,33 @@ news
         }
     }
     
-    this.sync = function( callback , $scope ) {
+    this.sync = function( callback , $scope , id ) {
         
         var $this = this;
         
         var _feeds = [];
-        if ( $scope ) {
-            if ( $scope.id ) {
-                _feeds.push( this.feeds[$scope.id] );
-            } else {
-                throw 'Missing $scope.id for syncing'
-            }
+        if ( id ) {
+            _feeds.push( this.feeds[id] );
+            
         } else {
             for ( var i in this.feeds ) {
                 _feeds.push( this.feeds[i] );
             }
         }
         
+        if ( $scope ) $scope.syncing = 0;
+        
+        // Number of feedsto synchronize:
+        var nFeeds = _feeds.length;
+        
         var g = function() {
             var _feed = _feeds.shift();
+            
+            if ( false && $scope ) {
+                $scope.syncing = ( nFeeds - _feeds.length ) / ( nFeeds * 25 );
+                try { $scope.$digest(); } catch (e) {}
+            }
+            
             if ( _feed ) {
                 
                 console.log('Syncing feed: ' + _feed.url );
@@ -55,7 +63,7 @@ news
                     .feed( _feed.url )
                     .then(function(feed){
                         
-                        if ( $scope ) {
+                        if ( $scope && id ) {
                             $scope.feed = feed;
                             try { $scope.$digest(); } catch (e) {}
                         }
@@ -63,14 +71,19 @@ news
                         var f = function( i ) {
                             if ( feed.entries[i] ) {
                                 console.log('Syncing: ' + feed.entries[i].link );
+                                
                                 $this
                                     .html( feed.entries[i].link )
                                     .then(function(html){
                                         
-                                        if ( $scope ) {
+                                        if ( $scope && id ) {
                                             var entry = $this.compile( $this.feeds[ $scope.id ].source, html );
                                             if ( entry.html ) $scope.feed.entries[i].html = entry.html;
                                             if ( entry.img ) $scope.feed.entries[i].img = entry.img;
+                                        }
+                                        
+                                        if ( $scope ) {
+                                            $scope.syncing = ( (nFeeds - _feeds.length - 1)*15 + i + 1 ) / ( nFeeds * 15 );
                                             try { $scope.$digest(); } catch (e) {}
                                         }
                                         
@@ -95,7 +108,7 @@ news
     // http://stackoverflow.com/questions/10943544/how-to-parse-a-rss-feed-using-javascript
     this.feed = function ( feed , num ) {
         var $this = this;
-        num = num ? num : 25;
+        num = num ? num : 15;
         
         return new Promise(function(resolve,reject){
             
@@ -106,7 +119,7 @@ news
                     }
                 }
                 
-                resolve(content);
+                return resolve(content);
             }
             
             storage.get($this.getPath(feed),'feed.json',function(cache,entry){
