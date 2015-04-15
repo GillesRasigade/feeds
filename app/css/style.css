@@ -41,17 +41,17 @@ body {
 
 #toc {
     list-style: none;
-    opacity: 0.5;
+    /*opacity: 0.7;*/
     
-    -webkit-transition: opacity 0.25s ease-in-out;
-  -moz-transition: opacity 0.25s ease-in-out;
-  -ms-transition: opacity 0.25s ease-in-out;
-  -o-transition: opacity 0.25s ease-in-out;
-  transition: opacity 0.25s ease-in-out;
+  /*  -webkit-transition: opacity 0.25s ease-in-out;*/
+  /*-moz-transition: opacity 0.25s ease-in-out;*/
+  /*-ms-transition: opacity 0.25s ease-in-out;*/
+  /*-o-transition: opacity 0.25s ease-in-out;*/
+  /*transition: opacity 0.25s ease-in-out;*/
 }
-#toc:hover {
-    opacity: 1;
-}
+/*#toc:hover {*/
+/*    opacity: 1;*/
+/*}*/
 
 #toc li {
     background: white;
@@ -62,13 +62,26 @@ body {
 
 #toc li a {
     padding: 10px;
+    font-size: 14px;
     display: block;
     color: #666;
     text-decoration: none;
+    position: relative;
+    padding-left: 74px;
 }
 
 #toc li a:hover {
     color: black;
+}
+
+#toc .img {
+    position: absolute;
+    left: 0px; top: 0px; width: 64px; height: 100%;
+    display: block;
+    float: left;
+    background-size: cover;
+    background-position: center;
+    background-color: #eee;
 }
 
 #feeds .label {
@@ -127,6 +140,12 @@ article .article-card {
     margin-top: -20px;
 }
 
+article h2 a:hover,
+article h2 a {
+    text-decoration: none;
+    color: black;
+}
+
 article .short {
     font-size: 15px;
     color: #555;
@@ -148,15 +167,21 @@ article .entry {
     padding-bottom: 15px;
 }
 
+article .entry iframe,
+article .entry img {
+    max-width: 100%;
+}
+
 article p {
     text-align: justify;
 }
 
 article .picture {
     text-align: center;
-    margin-bottom: -1px;
+    /*margin-bottom: -1px;*/
 }
 article .picture img {
+    width: 100%;
     /*border-top: 1px solid #ddd;*/
     /*border-bottom: 1px solid #ddd;*/
     /*padding: 2px 2px 0px 2px;*/

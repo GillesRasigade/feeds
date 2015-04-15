@@ -45,13 +45,16 @@
     <div class="row">
     
         <ul id="toc" class="col-md-3 hidden-xs hidden-sm">
-            <li ng-repeat="(i,entry) in feed.entries">
-                <a href="#/{{ id }}#entry-{{ i }}">{{ entry.title }}</a>
+            <li ng-if="!entry.filtered" ng-repeat="(i,entry) in feed.entries">
+                <a href="#/{{ id }}#entry-{{ i }}">
+                    <div class="img" style="background-image: url({{ entry.img }});">&nbsp;</div>
+                    {{ entry.title }}
+                </a>
             </li>
         </ul>
         
         <div id="articles" class="col-md-9">
-            <article id="entry-{{ i }}" itemscope itemtype="http://schema.org/Article" ng-click="showDetails = !showDetails" ng-repeat="(i,entry) in feed.entries" class="col-xs-12 article">
+            <article id="entry-{{ i }}" ng-if="!entry.filtered" itemscope itemtype="http://schema.org/Article" ng-click="showDetails = !showDetails" ng-repeat="(i,entry) in feed.entries" class="col-xs-12 article">
                 
                 <div class="details pull-right">
                     <small>

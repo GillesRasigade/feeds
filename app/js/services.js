@@ -5,6 +5,8 @@ news
 // - http://viralpatel.net/blogs/angularjs-service-factory-tutorial/
 .service('news', ['$http','$q','storage', function( $http, $q, storage ) {
     
+    this.nbFeeds = 25;
+    
     this.feeds = {
         "figaro-la-une": {
             title: "Le Figaro - A La Une",
@@ -51,7 +53,7 @@ news
             var _feed = _feeds.shift();
             
             if ( false && $scope ) {
-                $scope.syncing = ( nFeeds - _feeds.length ) / ( nFeeds * 25 );
+                $scope.syncing = ( nFeeds - _feeds.length ) / ( nFeeds * $this.nbFeeds );
                 try { $scope.$digest(); } catch (e) {}
             }
             
@@ -83,7 +85,7 @@ news
                                         }
                                         
                                         if ( $scope ) {
-                                            $scope.syncing = ( (nFeeds - _feeds.length - 1)*15 + i + 1 ) / ( nFeeds * 15 );
+                                            $scope.syncing = ( (nFeeds - _feeds.length - 1)*$this.nbFeeds + i + 1 ) / ( nFeeds * $this.nbFeeds );
                                             try { $scope.$digest(); } catch (e) {}
                                         }
                                         
@@ -108,7 +110,7 @@ news
     // http://stackoverflow.com/questions/10943544/how-to-parse-a-rss-feed-using-javascript
     this.feed = function ( feed , num ) {
         var $this = this;
-        num = num ? num : 15;
+        num = num ? num : $this.nbFeeds;
         
         return new Promise(function(resolve,reject){
             
