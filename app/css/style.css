@@ -178,6 +178,9 @@ article p {
 
 article .picture {
     text-align: center;
+    height: 250px;
+    background-size: cover;
+    background-position: center;
     /*margin-bottom: -1px;*/
 }
 article .picture img {

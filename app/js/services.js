@@ -48,6 +48,7 @@ news
         
         // Number of feedsto synchronize:
         var nFeeds = _feeds.length;
+        console.log( 51 );
         
         var g = function() {
             var _feed = _feeds.shift();
@@ -99,7 +100,9 @@ news
             } else {
                 if ( 'function' === typeof(callback) ) callback();
             }
-        }; g();
+        };
+        
+        storage.waitUntilCacheAvailable(g);
     }
 
     this.getPath = function ( feed ) {
@@ -432,11 +435,21 @@ news
         }
     }
     
+    this.waitUntilCacheAvailable = function( callback ) {
+        if ( !this.check(callback) ) {
+            var $this = this;
+            setTimeout(function(){
+                $this.waitUntilCacheAvailable(callback);
+            },100);
+        }
+    }
+    
     this.check = function ( callback ) {
         
         if ( null !== this.fs ) {
-            if ( 'function' === callback ) return callback();
-            else return true;
+            if ( 'function' === typeof(callback) ) callback();
+            
+            return true;
         }
         
         return false;

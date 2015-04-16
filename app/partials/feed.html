@@ -69,8 +69,8 @@
                     
                     <div ng-bind-html="entry.content | filterfeed" class="short"></div>
                     
-                    <div ng-if="entry.img" class="picture row">
-                        <img src="{{ entry.img }}" class="img-responsive center-block" />
+                    <div ng-if="entry.img" class="picture row" style="background-image:url('{{ entry.img }}')">
+                        <!--<img src="{{ entry.img }}" class="img-responsive center-block" />-->
                     </div>
                 </div>
                 

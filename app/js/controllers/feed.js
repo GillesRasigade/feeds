@@ -74,7 +74,6 @@ news
     }
     
     $scope.sync( $scope.id )
-    
 }])
 
 ;
