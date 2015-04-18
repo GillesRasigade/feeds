@@ -94,7 +94,7 @@ news
     var $s = angular.element( document.getElementById('s') ).val( $scope.s );
     $scope.search = function() {
         $scope.s = $rootScope.s = $s.val();
-        window.location.hash = '#/search/'+ ( $scope.s ? $scope.s : '' );
+        // window.location.hash = '#/search/'+ ( $scope.s ? $scope.s : '' );
         
         console.log( 86 , $scope.s , $rootScope.s , $route.current.params.q );
         
@@ -115,7 +115,10 @@ news
         
         news.addFeed(title,feed);
         
-        $location.path('/' + title );
+        // $location.path('/' + title );
+        setTimeout(function(){
+            window.location.hash = '#/'+ title;
+        },1000);
     }
 
     $s.off('keyup').on('keyup',function(event){

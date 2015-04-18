@@ -55,8 +55,6 @@
 
 
 
-
-
 <!--<ng-include src="'partials/header.html'"></ng-include>-->
 
 <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -77,6 +75,11 @@
             <!--        </select>-->
             <!--    </div>-->
             <!--</span>-->
+            
+            
+            <ul class="nav navbar-nav navbar-right pull-right" style="margin: -1px auto -100% 0px;">
+                <li><search></search></li>
+            </ul>
                 
             <div class="btn-group" role="group" style="margin-top:7px;">
                 <button ng-if="!syncing" ng-click="sync()" class="btn btn-default"><i class="fa fa-cloud-download"></i></button>
@@ -89,15 +92,11 @@
                         {{ feed.title }} <span class="fa fa-caret-down"></span>
                     </button>
                     <ul class="dropdown-menu" role="menu" ng-show="selectFeeds">
-                        <li ng-repeat="(i,feed) in feeds" ng-if="id!=i"><a href="#/{{ i }}" ng-bind-html="feed.title"></a></a></li>
-                        <!--<li><a href="#">Action</a></li>-->
+                        <li ng-repeat="(i,feed) in feeds" ng-if="id!=i"><a href="#/{{ i }}" ng-bind-html="feed.title"></a></li>
                     </ul>
                 </div>
             </div>
             
-            <ul class="nav navbar-nav navbar-right hidden-xs col-sm-3">
-                <li><search></search></li>
-            </ul>
                 
         </div>
     </div><!--/.nav-collapse -->
