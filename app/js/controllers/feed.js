@@ -10,7 +10,7 @@ news
     });
     
     // Scope search:
-    $scope.s = $rootScope.s ? $rootScope : '';
+    $scope.s = $rootScope.s ? $rootScope.s : '';
     $scope.id = $route.current.params.feed
     $scope.feed = null;
     $scope.syncing = false;
@@ -81,12 +81,22 @@ news
 
 .controller('SearchController', ['$scope','$rootScope','$location','$route','news', function($scope,$rootScope,$location,$route,news) {
 
-    $scope.s = $rootScope.s ? $rootScope : ( $route.current.params.q ? $route.current.params.q : '' );
+    // List of available feeds:
+    news.getFeeds(function(feeds){
+        $scope.feeds = feeds;
+        try { $scope.$digest(); } catch (e) {}
+    });
+
+    $scope.s = $rootScope.s ? $rootScope.s : ( $route.current.params.q ? $route.current.params.q : '' );
+    console.log( 860 , $scope.s , $rootScope.s , $route.current.params.q );
+    
     $scope.entries = [];
     var $s = angular.element( document.getElementById('s') ).val( $scope.s );
     $scope.search = function() {
-        $scope.s = $rootScope = $s.val();
-        window.location.hash = '#/search/'+$scope.s;
+        $scope.s = $rootScope.s = $s.val();
+        window.location.hash = '#/search/'+ ( $scope.s ? $scope.s : '' );
+        
+        console.log( 86 , $scope.s , $rootScope.s , $route.current.params.q );
         
         news
             .search( $scope.s )
@@ -139,6 +149,7 @@ news
 
 .controller('FeedsController', ['$scope','$rootScope','$location','$route','news', function($scope,$rootScope,$location,$route,news) {
 
+    $scope.s = '';
     $scope.feeds = {};
     news.getFeeds(function(feeds){
         $scope.feeds = feeds;

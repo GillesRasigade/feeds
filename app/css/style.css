@@ -34,6 +34,7 @@ body {
   transition: opacity 0.25s ease-in-out;
 }
 
+.open>.dropdown-toggle.btn-default,
 .navbar.navbar-default,
 .navbar.navbar-default * {
     color: white;
