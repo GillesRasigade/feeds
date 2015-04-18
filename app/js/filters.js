@@ -5,7 +5,7 @@ news
   return function( content ) {
         
         return content
-            .replace(/\n/,'')
+            .replace(/(\n|\r|<br\/?>)/,'')
             .replace(/<img width="1" height="1".*/,'');
     };
 })

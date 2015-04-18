@@ -62,6 +62,10 @@ news
         return feed;
     }
     
+    this.removeFeed = function ( id ) {
+        
+    }
+    
     this.sync = function( callback , $scope , id ) {
         
         var $this = this;

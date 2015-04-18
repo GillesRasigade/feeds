@@ -15,6 +15,8 @@
     
     position: relative;
     right: -32px;
+    
+    text-align: right;
 }
 
 body {

@@ -8,12 +8,13 @@
                 
                 <div class="article-card row">
                     <h2>
-                        <button class="btn btn-primary pull-right" ng-click="remove(i)">Remove</button>
-                        <a href="{{ entry.url }}" ng-bind-html="entry.title"></a>
+                        <button class="btn btn-link pull-right" ng-click="remove(i)"><i class="fa fa-times text-muted"></i></button>
+                        <a href="#/{{ i }}" ng-bind-html="entry.title"></a>
                     </h2>
                     <small><a href="{{ entry.url }}">{{ entry.url }}</a><br/></small>
                     
                     <div ng-if="entry.contentSnippet" ng-bind-html="entry.contentSnippet | filterfeed" class="short"></div>
+                    <div ng-if="!entry.contentSnippet" class="short"></div>
                     
                 </div>
                 

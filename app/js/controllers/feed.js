@@ -147,7 +147,7 @@ news
         }
     }
     $scope.search();
-
+    $s[0].focus();
 }])
 
 .controller('FeedsController', ['$scope','$rootScope','$location','$route','news', function($scope,$rootScope,$location,$route,news) {
@@ -161,9 +161,11 @@ news
     })
     
     $scope.remove = function ( id ) {
-        delete $scope.feeds[id]
-        news.setFeeds( $scope.feeds );
-        try { $scope.$digest(); } catch (e) {}
+        if ( confirm('Remove feed: ' + $scope.feeds[id].title + '?' ) ) {
+            delete $scope.feeds[id]
+            news.setFeeds( $scope.feeds );
+            try { $scope.$digest(); } catch (e) {}
+        }
     }
 
 }])

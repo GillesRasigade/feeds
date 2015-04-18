@@ -10,10 +10,10 @@
                 
                 <div class="article-card row">
                     <h2>
-                        <button class="btn btn-primary pull-right" ng-click="add(entry)">Add</button>
-                        <a href="{{ entry.link }}" ng-bind-html="entry.title"></a>
+                        <button class="btn btn-success pull-right" ng-click="add(entry)" style="margin-left: 10px;"><i class="fa fa-plus"></i>&nbsp;Add</button>
+                        <a href="{{ entry.link }}" target="_blank" ng-bind-html="entry.title"></a>
                     </h2>
-                    <small><a href="{{ entry.link }}">{{ entry.link }}</a><br/></small>
+                    <small><a href="{{ entry.link }}" target="_blank">{{ entry.link }}</a><br/></small>
                     
                     <div ng-bind-html="entry.contentSnippet | filterfeed" class="short"></div>
                     
