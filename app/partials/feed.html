@@ -13,9 +13,11 @@
                     <button ng-if="!syncing" ng-click="sync()" class="btn btn-link col-xs-2"><i class="fa fa-cloud-download"></i></button>
                     <button ng-if="syncing" class="btn btn-link col-xs-2" disabled="disabled"><i class="fa fa-refresh fa-spin"></i></button>
                     
-                    <div class="col-xs-10">
+                    <!--<a href="#/search/" class="btn btn-link col-xs-2"><i class="fa fa-search"></i></a>-->
+                    
+                    <div class="col-xs-8">
                         <select ng-model="id" ng-change="change()" class="form-control">
-                            <option ng-repeat="(i,feed) in feeds" value="{{ i }}" ng-selected="id==i">{{ feed.title }}</option>
+                            <option ng-repeat="(i,feed) in feeds" value="{{ i }}" ng-selected="id==i" ng-bind-html="feed.title"></option>
                         </select>
                     </div>
                 </div>

@@ -11,98 +11,135 @@ news
         "figaro-la-une": {
             title: "Le Figaro - A La Une",
             url: "http://rss.lefigaro.fr/lefigaro/laune",
-            source: "figaro"
+            source: "lefigaro.fr"
         },
         "figaro-politique" : {
             title: "Le Figaro - Politique",
             url: "http://www.lefigaro.fr/rss/figaro_politique.xml",
-            source: "figaro"
+            source: "lefigaro.fr"
         },
         "figaro-international" : {
             title: "Le Figaro - International",
             url: "http://www.lefigaro.fr/rss/figaro_international.xml",
-            source: "figaro"
+            source: "lefigaro.fr"
         },
         "20minutes-une": {
             title: "20minutes - Une",
             url: "http://www.20minutes.fr/rss/une.xml",
-            source: "20minutes"
+            source: "20minutes.fr"
         }
+    }
+    
+    this.saveFeeds = function () {
+        var $this = this;
+        storage.set('/.feeds/','feeds.json',JSON.stringify($this.feeds));
+    }
+    
+    this.getFeeds = function ( callback ) {
+        var $this = this;
+        storage.waitUntilCacheAvailable(function(){
+            storage.get('/.feeds/','feeds.json',function(feeds,entry){
+                if ( feeds ) {
+                    $this.feeds = JSON.parse(feeds);
+                }
+                
+                callback( $this.feeds );
+            });
+        });
+    }
+    
+    this.setFeeds = function ( feeds ) {
+        this.feeds = feeds;
+        this.saveFeeds();
+    }
+    
+    this.addFeed = function ( id , feed ) {
+        var $this = this;
+        this.feeds[id] = feed;
+        storage.waitUntilCacheAvailable(function(){
+            $this.saveFeeds();
+        });
+        return feed;
     }
     
     this.sync = function( callback , $scope , id ) {
         
         var $this = this;
         
-        var _feeds = [];
-        if ( id ) {
-            _feeds.push( this.feeds[id] );
+        $this.getFeeds(function(feeds){
+            var _feeds = [];
             
-        } else {
-            for ( var i in this.feeds ) {
-                _feeds.push( this.feeds[i] );
-            }
-        }
-        
-        if ( $scope ) $scope.syncing = 0;
-        
-        // Number of feedsto synchronize:
-        var nFeeds = _feeds.length;
-        console.log( 51 );
-        
-        var g = function() {
-            var _feed = _feeds.shift();
+            console.log( 64 , feeds );
             
-            if ( false && $scope ) {
-                $scope.syncing = ( nFeeds - _feeds.length ) / ( nFeeds * $this.nbFeeds );
-                try { $scope.$digest(); } catch (e) {}
-            }
-            
-            if ( _feed ) {
+            if ( id ) {
+                _feeds.push( feeds[id] );
                 
-                console.log('Syncing feed: ' + _feed.url );
-                
-                $this
-                    .feed( _feed.url )
-                    .then(function(feed){
-                        
-                        if ( $scope && id ) {
-                            $scope.feed = feed;
-                            try { $scope.$digest(); } catch (e) {}
-                        }
-                        
-                        var f = function( i ) {
-                            if ( feed.entries[i] ) {
-                                console.log('Syncing: ' + feed.entries[i].link );
-                                
-                                $this
-                                    .html( feed.entries[i].link )
-                                    .then(function(html){
-                                        
-                                        if ( $scope && id ) {
-                                            var entry = $this.compile( $this.feeds[ $scope.id ].source, html );
-                                            if ( entry.html ) $scope.feed.entries[i].html = entry.html;
-                                            if ( entry.img ) $scope.feed.entries[i].img = entry.img;
-                                        }
-                                        
-                                        if ( $scope ) {
-                                            $scope.syncing = ( (nFeeds - _feeds.length - 1)*$this.nbFeeds + i + 1 ) / ( nFeeds * $this.nbFeeds );
-                                            try { $scope.$digest(); } catch (e) {}
-                                        }
-                                        
-                                        f(++i);
-                                    })
-                            } else {
-                                g();
-                            }
-                        }; f(0);
-                    });
             } else {
-                if ( 'function' === typeof(callback) ) callback();
+                for ( var i in feeds ) {
+                    _feeds.push( feeds[i] );
+                }
             }
-        };
-        
-        storage.waitUntilCacheAvailable(g);
+            
+            if ( $scope ) $scope.syncing = 0;
+            
+            // Number of feedsto synchronize:
+            var nFeeds = _feeds.length;
+            console.log( 51 );
+            
+            var g = function() {
+                var _feed = _feeds.shift();
+                
+                if ( false && $scope ) {
+                    $scope.syncing = ( nFeeds - _feeds.length ) / ( nFeeds * $this.nbFeeds );
+                    try { $scope.$digest(); } catch (e) {}
+                }
+                
+                if ( _feed ) {
+                    
+                    console.log('Syncing feed: ' + _feed.url );
+                    
+                    $this
+                        .feed( _feed.url )
+                        .then(function(feed){
+                            
+                            if ( $scope && id ) {
+                                $scope.feed = feed;
+                                try { $scope.$digest(); } catch (e) {}
+                            }
+                            
+                            var f = function( i ) {
+                                if ( feed.entries[i] ) {
+                                    console.log('Syncing: ' + feed.entries[i].link );
+                                    
+                                    $this
+                                        .html( feed.entries[i].link )
+                                        .then(function(html){
+                                            
+                                            if ( $scope && id ) {
+                                                var entry = $this.compile( feeds[ $scope.id ].source, html );
+                                                if ( entry.html ) $scope.feed.entries[i].html = entry.html;
+                                                if ( entry.img ) $scope.feed.entries[i].img = entry.img;
+                                            }
+                                            
+                                            if ( $scope ) {
+                                                $scope.syncing = ( (nFeeds - _feeds.length - 1)*$this.nbFeeds + i + 1 ) / ( nFeeds * $this.nbFeeds );
+                                                try { $scope.$digest(); } catch (e) {}
+                                            }
+                                            
+                                            f(++i);
+                                        })
+                                } else {
+                                    g();
+                                }
+                            }; f(0);
+                        });
+                } else {
+                    if ( 'function' === typeof(callback) ) callback();
+                }
+            };
+            
+            storage.waitUntilCacheAvailable(g);
+        });
     }
 
     this.getPath = function ( feed ) {
@@ -200,7 +237,7 @@ news
             var $html = parser.parseFromString(html, 'text/html');
             return $html;
         },
-        figaro: function ( html ) {
+        "lefigaro.fr": function ( html ) {
             var $html = compilers._pre(html);
             var output = { html: '', img: null };
             
@@ -218,7 +255,7 @@ news
             
             return output
         },
-        "20minutes": function ( html ) {
+        "20minutes.fr": function ( html ) {
             var $html = compilers._pre(html);
             var output = { html: '', img: null };
             
@@ -299,6 +336,43 @@ news
 
     }
     
+    this.search = function ( query ) {
+        var $this = this;
+        
+        return new Promise(function(resolve,reject){
+            
+            var _resolve = function( content ) {
+                
+                return resolve(content);
+            }
+            
+            if ( !navigator.onLine ) {
+                a = [{"contentSnippet": "Jan 25, 2015 <b>...</b> Media Server <b>For</b> Humans 2. Contribute to mesh2 development by creating an <br>↵account on GitHub.","link": "https://github.com/billou-fr/mesh2","title": "<b>billou</b>-<b>fr</b>/mesh2 · GitHub","url": "https://github.com/billou-fr/mesh2/commits/master.atom"},{"contentSnippet": "Jan 25, 2015 <b>...</b> Media Server <b>For</b> Humans 2. Contribute to mesh2 development by creating an <br>↵account on GitHub.","link": "https://github.com/billou-fr/mesh2","title": "<b>billou</b>-<b>fr</b>/mesh2 · GitHub","url": "https://github.com/billou-fr/mesh2/commits/master.atom"},{"contentSnippet": "Jan 25, 2015 <b>...</b> Media Server <b>For</b> Humans 2. Contribute to mesh2 development by creating an <br>↵account on GitHub.","link": "https://github.com/billou-fr/mesh2","title": "<b>billou</b>-<b>fr</b>/mesh2 · GitHub","url": "https://github.com/billou-fr/mesh2/commits/master.atom"},{"contentSnippet": "Jan 25, 2015 <b>...</b> Media Server <b>For</b> Humans 2. Contribute to mesh2 development by creating an <br>↵account on GitHub.","link": "https://github.com/billou-fr/mesh2","title": "<b>billou</b>-<b>fr</b>/mesh2 · GitHub","url": "https://github.com/billou-fr/mesh2/commits/master.atom"},{"contentSnippet": "Jan 25, 2015 <b>...</b> Media Server <b>For</b> Humans 2. Contribute to mesh2 development by creating an <br>↵account on GitHub.","link": "https://github.com/billou-fr/mesh2","title": "<b>billou</b>-<b>fr</b>/mesh2 · GitHub","url": "https://github.com/billou-fr/mesh2/commits/master.atom"},{"contentSnippet": "Jan 25, 2015 <b>...</b> Media Server <b>For</b> Humans 2. Contribute to mesh2 development by creating an <br>↵account on GitHub.","link": "https://github.com/billou-fr/mesh2","title": "<b>billou</b>-<b>fr</b>/mesh2 · GitHub","url": "https://github.com/billou-fr/mesh2/commits/master.atom"}];
+                
+                _resolve(a);
+                return true;
+            }
+                
+            return ( $this.request({
+                url: '//ajax.googleapis.com/ajax/services/feed/find?v=1.0&callback=JSON_CALLBACK&q=' + encodeURIComponent(query),
+                method: "get",
+                headers: {
+                    'Content-type': 'application/json'
+                }
+            },'jsonp')
+            .then(function( data ){
+                
+                var content = data.data.responseData.entries;
+                
+                return _resolve(content);
+                
+                // Return feed data:
+                return content;
+            })
+            );
+        });
+    }
+    
 }])
 
 .service('storage', function() {
@@ -317,13 +391,26 @@ news
                         // Create a FileWriter object for our FileEntry (log.txt).
                         fileEntry.createWriter(function(fileWriter) {
 
-                            fileWriter.onwriteend = callback;
-                            fileWriter.onerror = params ? params.error : $this.error;
-
                             // Create a new Blob and write it to log.txt.
                             var blob = new Blob([content], {type: params && params.type ? params.type : 'text/plain'});
+                            
+                            fileWriter.onerror = params ? params.error : $this.error;
+                            fileWriter.onwriteend = function(){
+                                if (fileWriter.length === 0) {
+                                    //fileWriter has been reset, write file
+                                    fileWriter.write(blob);
+                                } else {
+                                    //file has been overwritten with blob
+                                    //use callback or resolve promise
+                                    if ( 'function' === typeof(callback) ) callback();
+                                }
+                            }
+                            fileWriter.truncate(0);
 
-                            fileWriter.write(blob);
+                            // fileWriter.onwriteend = callback;
+
+
+                            // fileWriter.write(blob);
 
                         }, $this.error);
                     });
@@ -459,7 +546,7 @@ news
         $this.fs = fs;
         console.log('Opened file system: ' + fs.name , this.fs );
     }
-    this.error = function(){
+    this.error = function(e){
         var msg = '';
 
         switch (e.code) {

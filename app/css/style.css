@@ -186,6 +186,8 @@ article .entry {
     padding-bottom: 15px;
 }
 
+article img,
+article iframe,
 article .entry iframe,
 article .entry img {
     max-width: 100%;
