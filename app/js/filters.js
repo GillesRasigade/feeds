@@ -3,10 +3,15 @@ news
 // Filter feed content
 .filter('filterfeed', function() {
   return function( content ) {
+      
+      console.log( 7 , content );
+      content = content
+            .replace(/(\n|\r|<br\/?>)/g,'')
+            .replace(/<img width="1" height="1".*/,'')
+            
+      console.log( 7 , content );
         
-        return content
-            .replace(/(\n|\r|<br\/?>)/,'')
-            .replace(/<img width="1" height="1".*/,'');
+        return content;
     };
 })
 
