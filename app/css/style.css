@@ -28,6 +28,7 @@ body {
     border-bottom: 1px solid #ddd;
     /*opacity: 0.75;*/
     margin-top: -2px;
+    padding: 10px;
     
     -webkit-transition: opacity 0.25s ease-in-out;
   -moz-transition: opacity 0.25s ease-in-out;
@@ -40,9 +41,15 @@ body {
     border-color: transparent !important;
     background-color: #117;
     border-radius: 0px;
+    padding: 6px 18px;
 }
 #s::-webkit-input-placeholder {
    color: #66c;
+}
+#s:focus, #s:active {
+    z-index: 9999;
+    width: 100%;
+    position: fixed;
 }
 
 .open>.dropdown-toggle.btn-default,
@@ -51,6 +58,7 @@ body {
     color: white;
     border-color: transparent;
     background-color: #006;
+    box-shadow: none;
 }
 
 /*.navbar.navbar-default:hover {
@@ -68,8 +76,12 @@ body {
     background-color: red;
 }
 
+.dropdown-menu>li>a {
+    padding: 10px 20px;
+}
+
 .feed-selection {
-    max-width: 150px;
+    max-width: 250px;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
