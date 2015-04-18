@@ -36,11 +36,20 @@ body {
   transition: opacity 0.25s ease-in-out;
 }
 
+#s {
+    border-color: transparent !important;
+    background-color: #117;
+    border-radius: 0px;
+}
+#s::-webkit-input-placeholder {
+   color: #66c;
+}
+
 .open>.dropdown-toggle.btn-default,
 .navbar.navbar-default,
 .navbar.navbar-default * {
     color: white;
-    border-color: #003;
+    border-color: transparent;
     background-color: #006;
 }
 
@@ -57,6 +66,13 @@ body {
 
 .navbar .progress-bar {
     background-color: red;
+}
+
+.feed-selection {
+    max-width: 150px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 /** Mobile **/
@@ -250,6 +266,10 @@ article .entry h4 {
 
 /* Small devices (tablets, 768px and up) */
 @media (min-width: 768px) {
+    .feed-selection {
+        max-width: 500px;
+
+    }
     article .entry {
         
         -webkit-column-count: 2; /* Chrome, Safari, Opera */
