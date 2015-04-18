@@ -19,8 +19,6 @@ news
         
         news.sync(function(){
             
-            console.log( 22 , $scope.feed );
-            
             $scope.syncing = false;
             try { $scope.$digest(); } catch (e) {}
             
