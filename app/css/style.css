@@ -24,7 +24,7 @@ body {
 .navbar.navbar-default {
     background: #00a;
     border-bottom: 1px solid #ddd;
-    opacity: 0.75;
+    /*opacity: 0.75;*/
     margin-top: -2px;
     
     -webkit-transition: opacity 0.25s ease-in-out;
@@ -42,9 +42,9 @@ body {
     background-color: #006;
 }
 
-.navbar.navbar-default:hover {
+/*.navbar.navbar-default:hover {
     opacity: 1;
-}
+}*/
 
 .navbar .progress {
     position: fixed;
@@ -187,6 +187,7 @@ article .entry {
     padding-bottom: 15px;
 }
 
+article pre,
 article img,
 article iframe,
 article .entry iframe,

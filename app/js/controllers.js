@@ -13,18 +13,15 @@ news
     })
     .when('/search/:q?', {
         controller:'SearchController',
-        templateUrl:'partials/search.html',
-        reloadOnSearch: false
+        templateUrl:'partials/search.html'
     })
     .when('/feeds', {
         controller:'FeedsController',
-        templateUrl:'partials/feeds.html',
-        reloadOnSearch: false
+        templateUrl:'partials/feeds.html'
     })
     .when('/:feed', {
         controller:'FeedController',
-        templateUrl:'partials/feed.html',
-        reloadOnSearch: false
+        templateUrl:'partials/feed.html'
     })
     .otherwise({
         redirectTo:'/'

@@ -152,6 +152,8 @@ news
         var $this = this;
         num = num ? num : $this.nbFeeds;
         
+        console.log( 'services.feed' , feed , num );
+        
         return new Promise(function(resolve,reject){
             
             var _resolve = function( content ) {
@@ -284,7 +286,16 @@ news
         if ( compilers[source] ) {
             return compilers[source](html);
         } else {
-            return { content: '' , img: null }
+            
+            var output = {content:'',img:null};
+            angular.forEach(compilers,function(o,i){
+                if ( 0 <= source.indexOf(i) ) {
+                    output = o(html);
+                    return false;
+                }
+            });
+            
+            return output;
         }
     }
     
