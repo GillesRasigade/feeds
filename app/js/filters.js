@@ -11,6 +11,14 @@ news
     };
 })
 
+.filter('feedSource', function(){
+    return function ( content ) {
+        return content
+            .replace(/^https?:\/\//,'')
+            .replace(/\/.*$/,'');
+    }
+})
+
 .filter('percentage', function() {
   return function( value ) {
         

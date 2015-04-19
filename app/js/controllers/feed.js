@@ -1,11 +1,12 @@
 news
 
 .controller('FeedController', ['$scope','$rootScope','$location','$route','news', function($scope,$rootScope,$location,$route,news) {
-    console.log( 'rss' )
+    console.log( 'rss' );
     
     // List of available feeds:
     news.getFeeds(function(feeds){
         $scope.feeds = feeds;
+        console.log( 9 , 'feeds:' , feeds );
         try { $scope.$digest(); } catch (e) {}
     });
     
@@ -43,7 +44,9 @@ news
         
         if (charCode == 27 ) {
             event.target.value = '';
+            event.target.blur();
         }
+            console.log(47,charCode,'blur');
         
         if ( charCode == 27 || charCode == 8 || /[a-z0-9]/i.test(charStr)) {
             $scope.s = $rootScope = event.target.value;
@@ -76,7 +79,12 @@ news
         
     }
     
-    $scope.sync( $scope.id )
+    $scope.sync( $scope.id );
+    
+    if ( window.refreshTimeout ) clearTimeout(window.refreshTimeout);
+    window.refreshTimeout = setTimeout(function(){
+        $scope.sync( $scope.id );
+    },10*60*1000)// Every 10 minutes
 }])
 
 .controller('SearchController', ['$scope','$rootScope','$location','$route','news', function($scope,$rootScope,$location,$route,news) {
@@ -134,6 +142,7 @@ news
             
             if (charCode == 27 ) {
                 event.target.value = '';
+                event.target.blur();
             }
             
             if ( charCode == 27 || charCode == 8 || /[a-z0-9]/i.test(charStr)) {

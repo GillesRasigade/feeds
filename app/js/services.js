@@ -115,6 +115,14 @@ news
                                 if ( feed.entries[i] ) {
                                     console.log('Syncing: ' + feed.entries[i].link );
                                     
+                                    // Split categories:
+                                    if ( $scope.feed.entries[i].categories ) {
+                                        console.log(120,$scope.feed.entries[i]);
+                                        if ( 'string' === typeof($scope.feed.entries[i].categories) ) {
+                                            $scope.feed.entries[i].categories = $scope.feed.entries[i].categories.split('&nbsp;');
+                                        }
+                                    }
+                                    
                                     $this
                                         .html( feed.entries[i].link )
                                         .then(function(html){
